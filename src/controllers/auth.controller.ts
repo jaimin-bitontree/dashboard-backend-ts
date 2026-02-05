@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import pool from '../config/db'
 import bcrypt from 'bcrypt'
 import { createUser, findUserByEmail } from '../services/user.service'
+import { generateHash } from '../utils/helper'
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password } = req.body as {
@@ -11,13 +12,13 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     }
     const isExits = await findUserByEmail(email)
     if (isExits) {
-      res.status(400).json({
+      res.status(409).json({
         message: 'Account already exists. Try logging in instead.',
         success: false,
       })
       return
     }
-    const hashPassword: string = await bcrypt.hash(password, 10)
+    const hashPassword= await generateHash(password)
     const payload = {
       name: name,
       email: email,

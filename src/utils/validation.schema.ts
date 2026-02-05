@@ -5,7 +5,7 @@ const nameSchema = z
   .trim()
   .regex(nameRegex, 'Name must Contain letters and single space between words');
 
-const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+// const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const emailSchema = z
   .string()
   .trim()
@@ -33,5 +33,5 @@ export const signupSchema = z
   })
   .refine((data:any) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
-    path: ['confirm_password'],
+    path: ['confirmPassword'],
   });

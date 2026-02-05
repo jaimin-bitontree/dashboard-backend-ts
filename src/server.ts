@@ -1,10 +1,9 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { checkDbConnection } from './config/db'
-
+import app from './app'
 dotenv.config()
 
-const app = express()
 const PORT = process.env.PORT || 5000
 
 const startServer = async () => {

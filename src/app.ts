@@ -1,7 +1,8 @@
-import express from 'express'
+import express, { Application } from 'express'
 import cors from 'cors'
-const app = express()
+import userRoutes from './routes/user.route'
+const app:Application = express()
 app.use(cors())
 app.use(express.json())
-
+app.use('/v1/auth',userRoutes)
 export default app

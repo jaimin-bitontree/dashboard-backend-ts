@@ -41,7 +41,6 @@ export const loginSchema = z.object({
   password: passwordSchema,
 })
 
-
 export const resetPasswordSchema = z
   .object({
     oldPassword: passwordSchema,
@@ -55,4 +54,18 @@ export const resetPasswordSchema = z
   .refine((data) => data.newPassword !== data.oldPassword, {
     message: 'New password must be different from old password',
     path: ['newPassword'],
-  });
+  })
+
+export const checkEmail = z.object({
+  email: emailSchema,
+})
+
+export const forgotPasswordSchema = z
+  .object({
+    newPassword: passwordSchema,
+    confirmPassword: z.string().min(1, 'Confirm password is required'),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: 'new password and confirm password do not match',
+    path: ['confirmPassword'],
+  })

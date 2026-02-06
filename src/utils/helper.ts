@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
-import jwt, { Secret, SignOptions } from 'jsonwebtoken'
+import jwt, { Secret, SignOptions, JwtPayload } from 'jsonwebtoken'
+import { AuthPayload } from '../types/auth'
 
 export const generateHash = async (password: string): Promise<string> => {
   const salt = Number(process.env.SALT)
@@ -22,4 +23,8 @@ export const generateToken = (
   secret: Secret
 ): string => {
   return jwt.sign(payload, secret, { expiresIn })
+}
+
+export const verifyToken = (token: string, secret: Secret): JwtPayload => {
+  return jwt.verify(token, secret) as JwtPayload
 }

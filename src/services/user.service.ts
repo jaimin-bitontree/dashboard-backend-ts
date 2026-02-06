@@ -1,3 +1,4 @@
+import { promises } from 'node:dns'
 import pool from '../config/db'
 
 export const findUserByEmail = async (email: string) => {
@@ -17,4 +18,21 @@ export const createUser = async (data: any) => {
     [data.name, data.email, data.password]
   )
   return result.rows[0] || null
+}
+
+export const updatePasswordWithResetVersion = async (
+  userId: string,
+  hashPassword: string,
+  resetVersion: number
+): Promise<boolean> => {
+  const result = await pool.query(
+    'update users set password=$1 ,reset_version = reset_version+1 where id=$2 and reset_version=$3',
+    [hashPassword, userId, resetVersion]
+  )
+  return result.rowCount === 1
+}
+
+export const updatePassword = async(hashPassword:string,userId:number):Promise<boolean>=>{
+    const result = await pool.query('update users set password=$1 where id=$2',[hashPassword,userId])
+    return result.rowCount === 1
 }

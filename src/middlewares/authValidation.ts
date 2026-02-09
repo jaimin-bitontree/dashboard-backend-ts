@@ -5,6 +5,7 @@ import {
   resetPasswordSchema,
   checkEmail,
   forgotPasswordSchema,
+  updateProfileSchema,
 } from '../utils/validation.schema'
 export const validateSignup = (
   req: Request,
@@ -80,3 +81,14 @@ export const validateForgotPassword = (
   }
   next()
 }
+
+export const validateUpdate = (req:Request, res:Response, next:NextFunction) => {
+  const result = updateProfileSchema.safeParse(req.body);
+  if (!result.success) {
+    console.log(result);
+    return res.status(400).json({
+      error: result.error.issues[0].message,
+    });
+  }
+  next();
+};

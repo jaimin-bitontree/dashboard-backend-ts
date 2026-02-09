@@ -32,7 +32,25 @@ export const updatePasswordWithResetVersion = async (
   return result.rowCount === 1
 }
 
-export const updatePassword = async(hashPassword:string,userId:number):Promise<boolean>=>{
-    const result = await pool.query('update users set password=$1 where id=$2',[hashPassword,userId])
-    return result.rowCount === 1
+export const updatePassword = async (
+  hashPassword: string,
+  userId: number
+): Promise<boolean> => {
+  const result = await pool.query('update users set password=$1 where id=$2', [
+    hashPassword,
+    userId,
+  ])
+  return result.rowCount === 1
+}
+export const updateProfile = async (
+  name: string,
+  age: number,
+  gender: string,
+  userId: number
+): Promise<boolean> => {
+  const result = await pool.query(
+    'update users set name=$1, age=$2,gender=$3 where id=$4',
+    [name, age, gender, userId]
+  )
+  return result.rowCount === 1
 }

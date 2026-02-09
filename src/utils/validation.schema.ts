@@ -69,3 +69,8 @@ export const forgotPasswordSchema = z
     message: 'new password and confirm password do not match',
     path: ['confirmPassword'],
   })
+
+// update profile
+export const updateProfileSchema = z.object({
+  name: nameSchema,
+})

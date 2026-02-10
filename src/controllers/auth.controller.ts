@@ -17,6 +17,7 @@ import {
 import { Secret } from 'jsonwebtoken'
 import { AuthPayload } from '../types/auth'
 import nodemailer from 'nodemailer'
+import { success } from 'zod'
 
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
@@ -296,4 +297,16 @@ export const forgotPassword = async (req: Request, res: Response) => {
       message: 'Invalid or expired  reset token',
     })
   }
+}
+
+export const logout = (req:Request,res:Response)=>{
+  res.clearCookie('token',{
+    httpOnly:true,
+    secure:process.env.NODE_ENV ==="production",
+    sameSite:'lax'
+  })
+  return res.status(200).json({
+    success:true,
+    message:"Logged Out successfully"
+  })
 }
